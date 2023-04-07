@@ -1,5 +1,4 @@
 # capstone
-------
 
 ## Arduino code for the capstone designe class
 ------
