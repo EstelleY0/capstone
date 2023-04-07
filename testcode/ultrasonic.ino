@@ -1,8 +1,8 @@
 #include <Car_Library.h>
 
 //trig and echo pin
-int trig = 3;
-int echo = 2;
+const int trig = 3;
+const int echo = 2;
 
 void setup() {
   Serial.begin(115200);
