@@ -1,6 +1,6 @@
 # capstone
 
-## Arduino code for the capstone designe class
+## Arduino code for the capstone design class
 ------
 
 ### Test Code
