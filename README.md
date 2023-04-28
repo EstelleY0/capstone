@@ -19,3 +19,8 @@
 ### Deep Learning
 
 [YOLOP](https://github.com/hustvl/YOLOP)
+
+
+### Arduino ATmega 2560 Pin Map
+
+[Pin Map](https://community.element14.com/products/arduino/w/documents/2969/arduino-mega-2560-rev3-pinout-atmega2560-pin-mapping-eagle-files-schematics-and-more)
