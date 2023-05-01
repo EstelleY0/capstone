@@ -15,7 +15,12 @@ def judge(cam, us, lid):
     # 초음파 센서 값 읽어오기 -일단은 매번 읽게 해둠. 근데 상황따라 수정 필
     if pyserial.readable():
         line = pyserial.readline()
-        us_data = line[:-2].decode()
+        us_data = line.decode()
+        # 초음파 센서 중 충돌거리 이하 감지한 센서 넘버링
+        us_collid = []
+        for i in range(6):
+            if us_data[i] == 1:
+                us_collid.append(i)
 
     # 종합해서 상황판단
 
