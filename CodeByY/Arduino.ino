@@ -56,7 +56,7 @@ float GetDistance(int trig, int echo)
 }
 
 void EnoughRollAhead(){
-    int USsensor[6] = {0, 0, 0, 0, 0, 0};
+    int USsensor[6] = {0, 0, 0, 0, 0, 0};           //0 for enough roll ahead, 1 for not
     
     if (GetDistance(TRIG1, ECHO1) < ROLL_AHEAD)
     {
@@ -83,13 +83,13 @@ void EnoughRollAhead(){
         USsensor[5] = 1;
     }
     
-    Serial.print(USsensor);
+    Serial.print(USsensor);     //send to laptop
 }
 
-void DriveMotor(int toward, int pwm=None)
+void DriveMotor(int toward, int pwm=0)
 {
     //toward front:1, backward:-1, hold:0
-    //pwm 0~255
+    //pwm 0~255 if no pwm input-hold
 
     if(toward == 0)
     {
