@@ -22,6 +22,7 @@ const int TRIG6 = 19;   //ultrasonic trig
 const int ECHO6 = 20;   //ultrasonic echo
 
 const int MAX_DISTANCE = 2000;  //for real, can detect only upto approx 300
+const int ROLL_AHEAD = 500;     //minimum distance for not to colllide
 const int PAUSE_TIME = 1000;
 
 
@@ -52,6 +53,37 @@ float GetDistance(int trig, int echo)
         return MAX_DISTANCE;    //no responce
     else
         return duration * 0.17; //speed 340m/s
+}
+
+void EnoughRollAhead(){
+    int USsensor[6] = {0, 0, 0, 0, 0, 0};
+    
+    if (GetDistance(TRIG1, ECHO1) < ROLL_AHEAD)
+    {
+        USsensor[0] = 1;
+    }
+    if (GetDistance(TRIG2, ECHO2) < ROLL_AHEAD)
+    {
+        USsensor[1] = 1;
+    }
+    if (GetDistance(TRIG3, ECHO3) < ROLL_AHEAD)
+    {
+        USsensor[2] = 1;
+    }
+    if (GetDistance(TRIG4, ECHO4) < ROLL_AHEAD)
+    {
+        USsensor[3] = 1;
+    }
+    if (GetDistance(TRIG5, ECHO5) < ROLL_AHEAD)
+    {
+        USsensor[4] = 1;
+    }
+    if (GetDistance(TRIG6, ECHO6) < ROLL_AHEAD)
+    {
+        USsensor[5] = 1;
+    }
+    
+    Serial.print(USsensor);
 }
 
 void DriveMotor(int toward, int pwm=None)
