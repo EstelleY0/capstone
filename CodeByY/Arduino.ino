@@ -56,34 +56,64 @@ float GetDistance(int trig, int echo)
 }
 
 void EnoughRollAhead(){
-    int USsensor[6] = {0, 0, 0, 0, 0, 0};           //0 for enough roll ahead, 1 for not
+//     int USsensor[6] = {0, 0, 0, 0, 0, 0};           //0 for enough roll ahead, 1 for not
     
-    if (GetDistance(TRIG1, ECHO1) < ROLL_AHEAD)
+//     if (GetDistance(TRIG1, ECHO1) < ROLL_AHEAD)
+//     {
+//         USsensor[0] = 1;
+//     }
+//     if (GetDistance(TRIG2, ECHO2) < ROLL_AHEAD)
+//     {
+//         USsensor[1] = 1;
+//     }
+//     if (GetDistance(TRIG3, ECHO3) < ROLL_AHEAD)
+//     {
+//         USsensor[2] = 1;
+//     }
+//     if (GetDistance(TRIG4, ECHO4) < ROLL_AHEAD)
+//     {
+//         USsensor[3] = 1;
+//     }
+//     if (GetDistance(TRIG5, ECHO5) < ROLL_AHEAD)
+//     {
+//         USsensor[4] = 1;
+//     }
+//     if (GetDistance(TRIG6, ECHO6) < ROLL_AHEAD)
+//     {
+//         USsensor[5] = 1;
+//     }
+    
+//     Serial.print(USsensor);     //send to laptop
+
+    
+    if (GetDistance(TRIG1, ECHO1) < ROLL_AHEAD) //front
     {
-        USsensor[0] = 1;
+        cur_speed = 0;  //stop
     }
-    if (GetDistance(TRIG2, ECHO2) < ROLL_AHEAD)
+    if (GetDistance(TRIG2, ECHO2) < ROLL_AHEAD) //front right
     {
-        USsensor[1] = 1;
+        cur_speed = 0.1;    //slow down
+        cur_steering = -1;  //toward left
     }
-    if (GetDistance(TRIG3, ECHO3) < ROLL_AHEAD)
+    if (GetDistance(TRIG3, ECHO3) < ROLL_AHEAD) //rear right
     {
-        USsensor[2] = 1;
+        
     }
-    if (GetDistance(TRIG4, ECHO4) < ROLL_AHEAD)
+    if (GetDistance(TRIG4, ECHO4) < ROLL_AHEAD) //rear
     {
-        USsensor[3] = 1;
+        
     }
-    if (GetDistance(TRIG5, ECHO5) < ROLL_AHEAD)
+    if (GetDistance(TRIG5, ECHO5) < ROLL_AHEAD) //rear left
     {
-        USsensor[4] = 1;
+        
     }
-    if (GetDistance(TRIG6, ECHO6) < ROLL_AHEAD)
+    if (GetDistance(TRIG6, ECHO6) < ROLL_AHEAD) //front left
     {
-        USsensor[5] = 1;
+        cur_speed = 0.1;    //slow down
+        cur_steering = 1;  //toward left
     }
     
-    Serial.print(USsensor);     //send to laptop
+    Serial.print(USsensor);     //send to
 }
 
 void DriveMotor(int toward, int pwm=0)
