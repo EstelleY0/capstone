@@ -1,5 +1,3 @@
-#include <Car_Library.h>
-
 const int motor1_a = 5; //rear motor 1
 const int motor1_b = 6; //rear motor 1
 const int motor2_a = 7; //rear motor 2
@@ -40,19 +38,50 @@ const int punch_time = 50;    //time needed to overcome friction
 const int stop_time = 300;    //time needed to change between forward n backward
 
 
+void motor_forward(int IN1, int IN2, int speed)
+{
+    analogWrite(IN1, speed);
+    analogWrite(IN2, LOW);
+}
+
+void motor_backward(int IN1, int IN2, int speed)
+{
+    analogWrite(IN1, LOW);
+    analogWrite(IN2, speed);
+}
+
+void motor_hold(int IN1, int IN2)
+{
+    analogWrite(IN1, LOW);
+    analogWrite(IN2, LOW);
+}
+
+int potentiometer_Read(int pin)
+{
+    int value;
+
+    value = analogRead(pin) / 4;
+
+    return value;
+}
+
 float GetDistance(int trig, int echo)
 {
-    digitalWrite(trig, LOW);
-    delayMicroseconds(4);
-    digitalWrite(trig, HIGH);
-    delayMicroseconds(20);
-    digitalWrite(trig, LOW);
+    long distance, duration;
 
-    unsigned long duration = pulseIn(echo, HIGH, 5000);
+    digitalWrite(trig, LOW);
+    digitalWrite(echo, LOW);
+    delayMicroseconds(2);
+
+    digitalWrite(trig, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trig, LOW);
+    duration = pulseIn(echo, HIGH);
+
     if (duration == 0)
         return MAX_DISTANCE;    //no responce
     else
-        return duration * 0.17; //speed 340m/s
+        return distance = ((float)(340 * duration) / 1000) / 2; //speed 340m/s
 }
 
 void EnoughRollAhead(){
