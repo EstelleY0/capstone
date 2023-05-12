@@ -1,12 +1,12 @@
 #include <Car_Library.h>
 
-const int motor1_a = 3; //rear motor 1
-const int motor1_b = 4; //rear motor 1
-const int motor2_a = 5; //rear motor 2
-const int motor2_b = 6; //rear motor 2
+const int motor1_a = 5; //rear motor 1
+const int motor1_b = 6; //rear motor 1
+const int motor2_a = 7; //rear motor 2
+const int motor2_b = 8; //rear motor 2
 
-const int steer_m1 = 7; //steer motor
-const int steer_m2 = 8; //steer motor
+const int steer_m1 = 3; //steer motor
+const int steer_m2 = 4; //steer motor
 
 const int TRIG1 = 9;    //ultrasonic trig
 const int ECHO1 = 10;   //ultrasonic echo
