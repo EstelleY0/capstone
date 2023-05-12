@@ -85,64 +85,7 @@ float GetDistance(int trig, int echo)
 }
 
 void EnoughRollAhead(){
-//     int USsensor[6] = {0, 0, 0, 0, 0, 0};           //0 for enough roll ahead, 1 for not
     
-//     if (GetDistance(TRIG1, ECHO1) < ROLL_AHEAD)
-//     {
-//         USsensor[0] = 1;
-//     }
-//     if (GetDistance(TRIG2, ECHO2) < ROLL_AHEAD)
-//     {
-//         USsensor[1] = 1;
-//     }
-//     if (GetDistance(TRIG3, ECHO3) < ROLL_AHEAD)
-//     {
-//         USsensor[2] = 1;
-//     }
-//     if (GetDistance(TRIG4, ECHO4) < ROLL_AHEAD)
-//     {
-//         USsensor[3] = 1;
-//     }
-//     if (GetDistance(TRIG5, ECHO5) < ROLL_AHEAD)
-//     {
-//         USsensor[4] = 1;
-//     }
-//     if (GetDistance(TRIG6, ECHO6) < ROLL_AHEAD)
-//     {
-//         USsensor[5] = 1;
-//     }
-    
-//     Serial.print(USsensor);     //send to laptop
-
-    
-    if (GetDistance(TRIG1, ECHO1) < ROLL_AHEAD) //front
-    {
-        cur_speed = 0;  //stop
-    }
-    if (GetDistance(TRIG2, ECHO2) < ROLL_AHEAD) //front right
-    {
-        cur_speed = 0.1;    //slow down
-        cur_steering = -1;  //toward left
-    }
-    if (GetDistance(TRIG3, ECHO3) < ROLL_AHEAD) //rear right
-    {
-        
-    }
-    if (GetDistance(TRIG4, ECHO4) < ROLL_AHEAD) //rear
-    {
-        
-    }
-    if (GetDistance(TRIG5, ECHO5) < ROLL_AHEAD) //rear left
-    {
-        
-    }
-    if (GetDistance(TRIG6, ECHO6) < ROLL_AHEAD) //front left
-    {
-        cur_speed = 0.1;    //slow down
-        cur_steering = 1;  //toward left
-    }
-    
-    Serial.print(USsensor);     //send to
 }
 
 void DriveMotor(int toward, int pwm=0)
