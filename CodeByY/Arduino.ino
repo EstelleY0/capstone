@@ -122,7 +122,7 @@ void DriveMotor(int toward, int pwm=0)
         motor_backward(motor2_a, motor2_b, pwm);
     }
 }
-
+/*
 void SteerMotor(float steering)
 {
     cur_steering = constrain(steering, -1, 1); // constrain -1~ 1 값으로 제한
@@ -131,7 +131,31 @@ void SteerMotor(float steering)
 
     //need more code for actual steering
 }
+*/
+float abs_float(float num){
+    return num < 0 ? -num : num;
+}
+const int Potentiometer_Pin = 13;
+void SteerMotor(float steering)
+{
+    // cur_steering = constrain(steering, -1, 1); // constrain -1~ 1 값으로 제한
 
+    float angle = steering * angle_limit;
+    float gap_goal = 0.01f;
+    float const_num = 100.f;
+    while (1)
+    {
+        float now_angle = potentiometer_Read(Potentiometer_Pin);
+        if (abs_float(now_angle - angle) < gap_goal)
+            break;
+        float delta_angle = angle - now_angle;
+        if (delta_angle < 0)
+            motor_forward(steer_m1, steer_m2, abs_float(delta_angle) * const_num);
+        else
+            motor_backward(steer_m1, steer_m2, abs_float(delta_angle) * const_num);
+    }
+    //need more code for actual steering
+}
 void DriveSpeed(float speed)
 {
     speed = constrain(speed, -1, 1);
