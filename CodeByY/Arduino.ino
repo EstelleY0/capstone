@@ -19,7 +19,7 @@ const int ECHO5 = 18;   //ultrasonic echo
 const int TRIG6 = 19;   //ultrasonic trig
 const int ECHO6 = 20;   //ultrasonic echo
 
-const int MAX_DISTANCE = 2000;  //for real, can detect only upto approx 300
+const int MAX_DISTANCE = 2000;  //for ideal can detect for about 4m
 const int ROLL_AHEAD = 500;     //minimum distance for not to colllide
 const int PAUSE_TIME = 1000;
 
