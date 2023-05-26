@@ -25,7 +25,8 @@ const int PAUSE_TIME = 1000;
 
 
 const int angle_offset = -8;    //steering offset in deg
-const int angle_limit = 55;     //steering angle limit in deg
+const int angle_limit = 20;     //steering angle limit in de
+const int angle_mid = 300
 
 float cur_steering;         //current steering  needed for gradual change
 float cur_speed;            //current speed     needed for overcome friction
