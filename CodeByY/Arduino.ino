@@ -84,8 +84,21 @@ float GetDistance(int trig, int echo)
         return distance = ((float)(340 * duration) / 1000) / 2; //speed 340m/s
 }
 
-void EnoughRollAhead(){
-    
+void avoid(){
+    first = 0;
+    if (first==0)
+    {
+        while(GetDistance(TRIG2, ECHO2) > 750)
+        {
+            #turn left
+        }
+    }
+    else{
+        while(GetDistance(TRIG6, ECHO6) > 750)
+        {
+            #turn right
+        }
+    }
 }
 
 void DriveMotor(int toward, int pwm=0)
@@ -167,7 +180,11 @@ void DriveSpeed(float speed)
 
 void Drive()
 {
-    if (0)      //straight -- need to fill condition
+    if (GetDistance(TRIG1, ECHO1) < 750)
+    {
+        avoid()
+    }
+    else if (0)      //straight -- need to fill condition
     {
         compute_steering = 0;
         compute_speed = 0;
