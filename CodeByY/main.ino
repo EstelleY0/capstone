@@ -16,7 +16,7 @@ const int PAUSE_TIME = 1000;
 
 const int angle_offset = -8;    //steering offset in deg
 const int angle_limit = 20;     //steering angle limit in de
-const int angle_mid = 300
+const int angle_mid = 300;
 
 float cur_steering = 1;         //current steering  needed for gradual change
 float cur_speed = 100;            //current speed     needed for overcome friction
@@ -28,26 +28,51 @@ const int punch_pwm = 200;    //pwm for overcome friction
 const int punch_time = 50;    //time needed to overcome friction
 const int stop_time = 300;    //time needed to change between forward n backward
 
-bool start = False;
+bool start = false;
+char direct = 's';
 
-void motor_forward(int IN1, int IN2, int speed)
+void forward(int speed = 100)
 {
     //forward, right
-    analogWrite(IN1, speed);
-    analogWrite(IN2, LOW);
+    analogWrite(motor1_a, speed);
+    analogWrite(motor1_b, LOW);
+    analogWrite(motor2_a, speed);
+    analogWrite(motor2_b, LOW);
 }
 
-void motor_backward(int IN1, int IN2, int speed)
+void backward(int speed = 100)
 {
     //backward, left
-    analogWrite(IN1, LOW);
-    analogWrite(IN2, speed);
+    analogWrite(motor1_b, speed);
+    analogWrite(motor1_a, LOW);
+    analogWrite(motor2_b, speed);
+    analogWrite(motor2_a, LOW);
 }
 
-void motor_hold(int IN1, int IN2)
+void hold()
 {
-    analogWrite(IN1, LOW);
-    analogWrite(IN2, LOW);
+    analogWrite(motor1_a, LOW);
+    analogWrite(motor1_b, LOW);
+    analogWrite(motor2_a, LOW);
+    analogWrite(motor2_b, LOW);
+}
+
+void left(int steer = 100)
+{
+    analogWrite(steer_m1, steer);
+    analogWrite(steer_m2, LOW);
+}
+
+void right(int steer = 100)
+{
+    analogWrite(steer_m2, steer);
+    analogWrite(steer_m1, LOW);
+}
+
+void straight()
+{
+    analogWrite(steer_m1, LOW);
+    analogWrite(steer_m2, LOW);
 }
 
 int potentiometer_Read(int pin)
@@ -59,46 +84,18 @@ int potentiometer_Read(int pin)
     return value;
 }
 
-void avoid()
-{
-    int start_line = 1;
-    if (start_line == 1){
-      motor_forward(steer_m1, steer_m2,200);
-      DriveMotor(1, 100);  //pwm = 100 이거 수정 해야함
-      delay(1000);  //이거 그냥 1초 우회전 해놨는데이거도 수정 필요함
-      motor_backward(steer_m1,steer_m2, 200);
-      DriveMotor(1, 100); //이거도 속도 수정
-      delay(1000);  //이거도 시간 
-}
-
-void SteerMotor(float steer)
-{
-  if (steer>0)
-  {
-    motor_forward(steer_m1, steer_m2, 150);
-  }
-  else if (steer < 0)
-  {
-    motor_backward(steer_m1, steer_m2, 150);
-  }
-  else
-  {
-    motor_hold(steer_m1, steer_m2);
-  }
-}
-
-float GetDistance(int trig, int echo)
+float GetDistance()
 {
     long distance, duration;
 
-    digitalWrite(trig, LOW);
-    digitalWrite(echo, LOW);
+    digitalWrite(TRIG1, LOW);
+    digitalWrite(ECHO1, LOW);
     delayMicroseconds(2);
 
-    digitalWrite(trig, HIGH);
+    digitalWrite(TRIG1, HIGH);
     delayMicroseconds(10);
-    digitalWrite(trig, LOW);
-    duration = pulseIn(echo, HIGH);
+    digitalWrite(TRIG1, LOW);
+    duration = pulseIn(ECHO1, HIGH);
 
     if (duration == 0)
         return MAX_DISTANCE;    //no responce
@@ -106,25 +103,22 @@ float GetDistance(int trig, int echo)
         return distance = ((float)(340 * duration) / 1000) / 2; //speed 340m/s
 }
 
-void DriveMotor(int toward, int pwm=0)
+void DriveMotor(int toward, int pwm=100)
 {
     //toward front:1, backward:-1, hold:0
     //pwm 0~255 if no pwm input-hold
 
     if(toward == 0)
     {
-        motor_hold(motor1_a, motor1_b);
-        motor_hold(motoe2_a, motoe2_b);
+        hold();
     }
     else if (toward == 1)
     {
-        motor_forward(motor1_a, motor1_b, pwm);
-        motor_forward(motor2_a, motor2_b, pwm);
+        forward(pwm);
     }
     else
     {
-        motor_backward(motor1_a, motor1_b, pwm);
-        motor_backward(motor2_a, motor2_b, pwm);
+        backward(pwm);
     }
 }
 
@@ -174,15 +168,13 @@ void DriveSpeed(float speed)
     cur_speed = speed;
 }
 
-void Drive(char command)
+void Drive(char direction)
 {
-    if (GetDistance(TRIG1, ECHO1) < 750)
+    if (GetDistance() < 750)
     {
         avoid();
     }
-    else if (Serial.available() > 0) {
-        // Read the command from Python
-        direction = Serial.read();
+    else {
         // Execute the corresponding action
         if (direction == 'l') {
             compute_steering = -1;
@@ -200,6 +192,36 @@ void Drive(char command)
     }
 }
 
+void avoid()
+{
+    int start_line = 1;
+    if (start_line == 1){
+      right(100);
+      DriveMotor(1, 100);  //pwm = 100 이거 수정 해야함
+      delay(1000);  //이거 그냥 1초 우회전 해놨는데이거도 수정 필요함
+      left(100);
+      DriveMotor(1, 100); //이거도 속도 수정
+      delay(1000);  //이거도 시간 
+    }
+}
+
+void SteerMotor(int steer)
+{
+    if (steer>0)
+    {
+        //right
+        right(steer*225);
+    }
+    else if (steer<0)
+    {
+        //left
+        left(steer*225);
+    }
+    else
+    {
+        straight();
+    }
+}
 
 void setup()
 {
@@ -215,19 +237,8 @@ void setup()
     
     pinMode(ECHO1, INPUT);
     pinMode(TRIG1, OUTPUT);
-    pinMode(ECHO2, INPUT);
-    pinMode(TRIG2, OUTPUT);
-    pinMode(ECHO3, INPUT);
-    pinMode(TRIG3, OUTPUT);
-    pinMode(ECHO4, INPUT);
-    pinMode(TRIG4, OUTPUT);
-    pinMode(ECHO5, INPUT);
-    pinMode(TRIG5, OUTPUT);
-    pinMode(ECHO6, INPUT);
-    pinMode(TRIG6, OUTPUT);
 
     DriveSpeed(0);  //start from stop
-    SteerMotor(0);  //start steering 0
 }
 
 void loop()
@@ -237,16 +248,21 @@ void loop()
         compute_speed = cur_speed;
         compute_steering = cur_steering;
 
-        Drive();
+        if (Serial.available() > 0)
+        {
+            // Read the command from Python
+            direct = Serial.read();
+        }
+        Drive(direct);
         DriveSpeed(compute_speed);
         SteerMotor(compute_steering);
     }
     else
     {
         if (Serial.available() > 0) { // Check if data is available to read
-            char key = Serail.read();
-            if (key == 's'){
-              start = True;
+            char key = Serial.read();
+            if (key == 'a'){
+              start = true;
             }
         }
     }
