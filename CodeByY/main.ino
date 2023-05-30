@@ -8,16 +8,6 @@ const int steer_m2 = 4; //steer motor
 
 const int TRIG1 = 9;    //ultrasonic trig
 const int ECHO1 = 10;   //ultrasonic echo
-const int TRIG2 = 11;   //ultrasonic trig
-const int ECHO2 = 12;   //ultrasonic echo
-const int TRIG3 = 13;   //ultrasonic trig
-const int ECHO3 = 14;   //ultrasonic echo
-const int TRIG4 = 15;   //ultrasonic trig
-const int ECHO4 = 16;   //ultrasonic echo
-const int TRIG5 = 17;   //ultrasonic trig
-const int ECHO5 = 18;   //ultrasonic echo
-const int TRIG6 = 19;   //ultrasonic trig
-const int ECHO6 = 20;   //ultrasonic echo
 
 const int MAX_DISTANCE = 2000;  //for ideal can detect for about 4m
 const int ROLL_AHEAD = 500;     //minimum distance for not to colllide
