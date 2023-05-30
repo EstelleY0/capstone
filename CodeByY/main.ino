@@ -192,16 +192,29 @@ void Drive(char direction)
     }
 }
 
+int phase = 0; //오른쪽으ㄹ 피하는거 먼저면 0 아니면 1로 수정
+
 void avoid()
 {
-    int start_line = 1;
-    if (start_line == 1){
-      right(100);
-      DriveMotor(1, 100);  //pwm = 100 이거 수정 해야함
-      delay(1000);  //이거 그냥 1초 우회전 해놨는데이거도 수정 필요함
-      left(100);
-      DriveMotor(1, 100); //이거도 속도 수정
-      delay(1000);  //이거도 시간 
+    if (phase == 0){
+        //오른쪽 회피
+        phase = 1;
+        right(100);
+        DriveMotor(1, 100);  //pwm = 100 이거 수정 해야함
+        delay(1000);  //이거 그냥 1초 우회전 해놨는데이거도 수정 필요함
+        left(100);
+        DriveMotor(1, 100); //이거도 속도 수정
+        delay(1000);  //이거도 시간 
+    }
+    else{
+        //왼쪽회피
+        phase = 0;
+        left(100);
+        DriveMotor(1, 100);  //pwm = 100 이거 수정 해야함
+        delay(1000);  //이거 그냥 1초 우회전 해놨는데이거도 수정 필요함
+        right(100);
+        DriveMotor(1, 100); //이거도 속도 수정
+        delay(1000);  //이거도 시간 
     }
 }
 
